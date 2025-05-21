@@ -1,4 +1,4 @@
-﻿namespace tp2;
+namespace tp2;
 
 public static class NotaEscolar
 {

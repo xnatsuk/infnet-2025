@@ -1,4 +1,4 @@
-﻿namespace tp3;
+namespace tp3;
 
 public class Matricula
 {

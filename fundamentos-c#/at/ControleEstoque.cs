@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using static System.Int32;
 
 

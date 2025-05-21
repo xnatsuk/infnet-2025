@@ -1,4 +1,4 @@
-﻿namespace at;
+namespace at;
 
 public class DataFormatura
 {
