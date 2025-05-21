@@ -1,0 +1,10 @@
+@page "{cityName}"
+@model CityDetailsModel
+
+<h1>Detalhes da Cidade</h1>
+
+<div class="alert alert-info">
+    <h4>Você está vendo detalhes de: <strong>@Model.CityName</strong></h4>
+</div>
+
+<a asp-page="./CityList" class="btn btn-secondary">Voltar</a>

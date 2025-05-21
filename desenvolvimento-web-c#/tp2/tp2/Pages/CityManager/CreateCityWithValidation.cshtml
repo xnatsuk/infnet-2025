@@ -1,0 +1,24 @@
+@page
+@model CreateCityWithValidationModel
+
+
+<h1>Adicionar Cidade (Com Validação)</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Input.CityName">Nome da Cidade:</label>
+        <input asp-for="Input.CityName" class="form-control" value="@Model.Input?.CityName"/>
+        <span asp-validation-for="Input.CityName" class="text-danger"></span>
+    </div>
+    <div class="mt-4">
+        <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </div>
+</form>
+
+@if (ModelState.IsValid && Model.FormSubmitted)
+{
+    <div class="alert alert-success mt-3">
+        Cidade adicionada com sucesso: <strong>@Model.CityNameSubmitted</strong>
+    </div>
+}

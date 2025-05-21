@@ -1,0 +1,30 @@
+@page
+@model CreateCountryModel
+
+<h1>Cadastro de País</h1>
+
+<form method="post">
+    <div class="form-group mt-4 mb-2">
+        <label asp-for="Input.CountryName">Nome do País:</label>
+        <input asp-for="Input.CountryName" class="form-control"/>
+        <span asp-validation-for="Input.CountryName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-2">
+        <label asp-for="Input.CountryCode">Código do País (2 letras):</label>
+        <input asp-for="Input.CountryCode" class="form-control"/>
+        <span asp-validation-for="Input.CountryCode" class="text-danger"></span>
+    </div>
+
+    <div class="mt-4">
+        <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </div>
+</form>
+
+@if (Model.NewCountry is not null && ModelState.IsValid)
+{
+    <div class="alert alert-success mt-3">
+        País cadastrado com sucesso: <strong>@Model.NewCountry.CountryName (@Model.NewCountry.CountryCode)</strong>
+    </div>
+}

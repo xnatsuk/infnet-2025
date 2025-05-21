@@ -1,0 +1,25 @@
+@page
+@model SaveNoteModel
+
+
+<h1>Criar Nota</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Input.Content">Conteúdo da Nota:</label>
+        <textarea asp-for="Input.Content" class="form-control" rows="10" required></textarea>
+        <span asp-validation-for="Input.Content" class="text-danger"></span>
+    </div>
+    <div class="mt-4">
+        <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </div>
+</form>
+
+@if (Model.SavedFile is not null && ModelState.IsValid)
+{
+    <div class="alert alert-success">
+        <p>Sua nota foi salva!</p>
+    </div>
+}
+

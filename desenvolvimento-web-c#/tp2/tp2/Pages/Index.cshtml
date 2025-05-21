@@ -1,0 +1,75 @@
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "TP 2";
+}
+
+<div class="text-center">
+    <h2 class="display-2">TP 2 - City Manager</h2>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Cidade</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a asp-page="/CityManager/CreateCity" class="list-group-item list-group-item-action">
+                        Cadastro de Cidade
+                    </a>
+                    <a asp-page="/CityManager/CreateCityWithValidation" class="list-group-item list-group-item-action">
+                        Cadastro de Cidade com Validação
+                    </a>
+                    <div class="list-group">
+                        <a asp-page="/CityManager/CityList" class="list-group-item list-group-item-action">
+                            Lista de Cidades e Seus Detalhes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">País</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a asp-page="/CityManager/CreateCountry" class="list-group-item list-group-item-action">
+                        Cadastro de País
+                    </a>
+                    <a asp-page="/CityManager/CreateCountries" class="list-group-item list-group-item-action">
+                        Cadastro de Múltiplos Países
+                    </a>
+                    <a asp-page="/CityManager/CreateCountryWithCustomValidation" class="list-group-item list-group-item-action">
+                        Cadastro de Países Com Validação Customizada
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0">Notas</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a asp-page="/CityManager/SaveNote" class="list-group-item list-group-item-action">
+                        Nova Nota
+                    </a>
+                    <a asp-page="/CityManager/ViewNotes" class="list-group-item list-group-item-action">
+                        Ver Notas Salvas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

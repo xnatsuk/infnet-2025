@@ -1,0 +1,24 @@
+@page
+@model CreateCityModel
+
+
+<h1>Adicionar Cidade</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="CityName">Nome da Cidade:</label>
+        <input type="text" id="CityName" name="CityName" class="form-control"/>
+        <span class="text-danger">@Html.ValidationMessage("Input.CityName")</span>
+    </div>
+    <div class="mt-4">
+        <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </div>
+</form>
+
+@if (Model.CityName is not null && ModelState.IsValid)
+{
+    <div class="alert alert-success mt-3">
+        Cidade adicionada com sucesso: <strong>@Model.CityName</strong>
+    </div>
+}

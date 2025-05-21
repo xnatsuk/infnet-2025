@@ -1,0 +1,19 @@
+@page
+@model CityListModel
+
+<h1>Lista de Cidades</h1>
+
+<div class="list-group mt-3">
+    @foreach (var city in Model.Cities)
+    {
+        <a asp-page="./CityDetails"
+           asp-route-cityName="@city"
+           class="list-group-item list-group-item-action">
+            @city
+        </a>
+    }
+</div>
+
+<div class="mt-4">
+    <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+</div>

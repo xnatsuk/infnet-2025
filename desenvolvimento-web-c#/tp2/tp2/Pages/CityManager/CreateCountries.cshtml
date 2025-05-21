@@ -1,0 +1,48 @@
+@page
+@model CreateCountriesModel
+
+<h1>Adicionar Múltiplos Países</h1>
+
+<form method="post">
+    <table class="mt-4 table table-bordered">
+        <thead>
+        <tr>
+            <th>Nome do País</th>
+            <th>Código do País (2 letras)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < 5; i++)
+        {
+            <tr>
+                <td>
+                    <input asp-for="CountryInputs[i].CountryName" class="form-control"/>
+                    <span asp-validation-for="CountryInputs[i].CountryName" class="text-danger"></span>
+                </td>
+                <td>
+                    <input asp-for="CountryInputs[i].CountryCode" class="form-control"/>
+                    <span asp-validation-for="CountryInputs[i].CountryCode" class="text-danger"></span>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </div>
+</form>
+
+@if (Model.CountriesSubmitted is not null && ModelState.IsValid)
+{
+    <div class="alert alert-success mt-3">
+        <h4>Países cadastrados com sucesso:</h4>
+        <ul>
+            @foreach (var country in Model.CountriesSubmitted)
+            {
+                <li><strong>@country.CountryName (@country.CountryCode)</strong></li>
+            }
+        </ul>
+    </div>
+}

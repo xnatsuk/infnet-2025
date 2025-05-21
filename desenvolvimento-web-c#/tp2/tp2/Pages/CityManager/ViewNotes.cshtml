@@ -1,0 +1,54 @@
+@page
+@model ViewNotesModel
+
+<div class="container">
+    <h1>Visualizar Notas</h1>
+
+    <div class="mt-4 row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Notas Disponíveis</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Files.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach (var file in Model.Files)
+                            {
+                                <li class="list-group-item">
+                                    <a asp-page="./ViewNotes"
+                                       asp-route-fileName="@file.Name"
+                                       class="@(file.Name == Model.SelectedFile ? "fw-bold" : "")">
+                                        @file.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>Nenhuma nota encontrada.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 col-md-8">
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>@(string.IsNullOrEmpty(Model.SelectedFile) ? "Selecione um arquivo para visualizar" : Model.SelectedFile)</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="border p-3 bg-light">@Model.FileContent</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-page="../Index" class="btn btn-secondary">Voltar</a>
+        <a asp-page="./SaveNote" class="btn btn-primary">Nova Nota</a>
+    </div>
+</div>
