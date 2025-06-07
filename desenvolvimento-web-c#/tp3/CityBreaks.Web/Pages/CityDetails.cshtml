@@ -1,0 +1,115 @@
+@page "/CityDetails/{name}"
+@using System.Globalization
+@model CityDetailsModel
+@{
+    ViewData["Title"] = $"Detalhes - {Model.City?.Name}";
+}
+
+<div class="container mt-4">
+    @if (Model.City != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">@Model.City.Name</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h1 class="display-4">@Model.City.Name</h1>
+                        <p class="lead">@Model.City.Country?.CountryName (@Model.City.Country?.CountryCode)</p>
+                        <p class="mb-0">
+                            <strong>@Model.City.Properties.Count</strong> propriedade(s) disponível(is)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.City.Properties.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-4">Propriedades Disponíveis</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach (var property in Model.City.Properties.OrderBy(p => p.PricePerNight))
+                {
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">@property.Name</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                <span
+                                    class="badge bg-success fs-6">@property.PricePerNight.ToString("C", new CultureInfo("en-US"))/noite</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <a href="/EditProperty/@property.Id"
+                                       class="btn btn-outline-info btn-sm me-2">
+                                        Editar
+                                    </a>
+                                    <form method="post" asp-page="/DeleteProperty" asp-route-id="@property.Id"
+                                          style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Tem certeza que deseja excluir esta propriedade?')">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <h6 class="text-muted">Preço Mínimo</h6>
+                                    <h4 class="text-success">@Model.City.Properties.Min(p => p.PricePerNight).ToString("C", new CultureInfo("en-US"))</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="text-muted">Preço Máximo</h6>
+                                    <h4 class="text-danger">@Model.City.Properties.Max(p => p.PricePerNight).ToString("C", new CultureInfo("en-US"))</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="text-muted">Preço Médio</h6>
+                                    <h4 class="text-primary">@Model.City.Properties.Average(p => p.PricePerNight).ToString("C", new CultureInfo("en-US"))</h4>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="text-muted">Total de Propriedades</h6>
+                                    <h4 class="text-info">@Model.City.Properties.Count</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+        }
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <a href="/" class="btn btn-secondary">← Voltar</a>
+                <a href="/CreateProperty" class="btn btn-primary ms-2"> Nova Propriedade</a>
+            </div>
+        </div>
+    }
+</div>

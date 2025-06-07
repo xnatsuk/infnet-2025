@@ -1,0 +1,75 @@
+@page "/EditProperty/{id:int}"
+@model EditPropertyModel
+@{
+    ViewData["Title"] = $"Editar - {Model.Property?.Name}";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Editar Propriedade</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-dark">
+                    <h3 class="mb-0"> Editar Propriedade</h3>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="alert alert-info">@Model.Message</div>
+                    }
+
+                    <form method="post">
+                        <input type="hidden" asp-for="Property.Id"/>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="Property.Name" class="form-label">
+                                <strong>Nome da Propriedade</strong>
+                            </label>
+                            <input asp-for="Property.Name" class="form-control"/>
+                            <span asp-validation-for="Property.Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Property.PricePerNight" class="form-label">
+                                <strong>Preço por Noite</strong>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Property.PricePerNight" class="form-control" step="1.0" type="number"/>
+                            </div>
+                            <span asp-validation-for="Property.PricePerNight" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Property.CityId" class="form-label">
+                                <strong>Cidade</strong>
+                            </label>
+                            <select asp-for="Property.CityId" asp-items="Model.Cities" class="form-select">
+                                <option value="">Selecione uma cidade...</option>
+                            </select>
+                            <span asp-validation-for="Property.CityId" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/" class="btn btn-secondary me-md-2">← Cancelar</a>
+                            <button type="submit" class="btn btn-info">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

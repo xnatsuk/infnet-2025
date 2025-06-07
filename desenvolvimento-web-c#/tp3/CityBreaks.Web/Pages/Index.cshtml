@@ -1,0 +1,84 @@
+
+@page
+@using System.Globalization
+@model IndexModel
+@{
+    ViewData["Title"] = "City Breaks";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Portal City Breaks</h1>
+            <p class="lead">Descubra diversas propriedades turísticas ao redor do mundo</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="/CreateProperty" class="btn btn-primary me-2">+ Nova Propriedade</a>
+            <a href="/FilterProperties" class="btn btn-outline-secondary">Buscar Propriedades</a>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var city in Model.Cities)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-primary-subtle text-dark">
+                        <h5 class="card-title mb-0">
+                            @city.Name, @city.Country?.CountryName
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            <strong>@city.Properties.Count</strong> propriedade(s)
+                        </p>
+
+                        @if (city.Properties.Any())
+                        {
+                            <div class="mb-3">
+                                <small class="text-muted">Preços a partir de:</small>
+                                <h6 class="text-success">
+                                    @city.Properties.Min(p => p.PricePerNight).ToString("C", new CultureInfo("en-US")) /
+                                    noite
+                                </h6>
+                            </div>
+
+                            <ul class="list-unstyled">
+                                @foreach (var property in city.Properties.Take(3))
+                                {
+                                    <li class="mb-1">
+                                        <small> @property.Name - @property.PricePerNight.ToString("C", new CultureInfo("en-US"))</small>
+                                    </li>
+                                }
+                                @if (city.Properties.Count > 3)
+                                {
+                                    <li><small class="text-muted">... e
+                                            mais @(city.Properties.Count - 3) propriedade(s)</small></li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a href="/CityDetails/@city.Name" class="btn btn-outline-primary btn-sm">
+                            Detalhes →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Cities.Any())
+    {
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info">
+                    <h4>Nenhuma cidade encontrada</h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>

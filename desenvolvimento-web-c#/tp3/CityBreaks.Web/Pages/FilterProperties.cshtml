@@ -1,0 +1,195 @@
+@page
+@using System.Globalization
+@model FilterPropertiesModel
+@{
+    ViewData["Title"] = "Buscar Propriedades";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Buscar Propriedades</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Filtros de Busca</h3>
+                </div>
+                <div class="card-body">
+                    <form method="get">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="MinPrice" class="form-label">Preço Mínimo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="MinPrice" class="form-control" step="10.0" type="number"
+                                           placeholder="0,00"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="MaxPrice" class="form-label">Preço Máximo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input asp-for="MaxPrice" class="form-control" step="10.0" type="number"
+                                           placeholder="0,00"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="CityName" class="form-label">Nome da Cidade</label>
+                                <input asp-for="CityName" class="form-control" placeholder="Ex: São Paulo, Paris..."/>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="PropertyName" class="form-label">Nome da Propriedade</label>
+                                <input asp-for="PropertyName" class="form-control"
+                                       placeholder="Ex: Hotel, Apartamento..."/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <span>Buscar</span>
+                                </button>
+                                <a href="/FilterProperties" class="btn btn-outline-secondary">
+                                    <span>Limpar Filtros</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.HasFilters)
+    {
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6>Filtros Aplicados:</h6>
+                    <ul class="mb-0">
+                        @if (Model.MinPrice.HasValue)
+                        {
+                            <li>Preço mínimo:
+                                <strong>@Model.MinPrice.Value.ToString("C", new CultureInfo("en-US"))</strong></li>
+                        }
+                        @if (Model.MaxPrice.HasValue)
+                        {
+                            <li>Preço máximo:
+                                <strong>@Model.MaxPrice.Value.ToString("C", new CultureInfo("en-US"))</strong></li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.CityName))
+                        {
+                            <li>Cidade: <strong>@Model.CityName</strong></li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.PropertyName))
+                        {
+                            <li>Propriedade: <strong>@Model.PropertyName</strong></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-12">
+            <h4 class="mb-3">
+                Resultados (@Model.Properties.Count propriedade(s) encontrada(s))
+            </h4>
+        </div>
+    </div>
+
+    @if (Model.Properties.Any())
+    {
+        <div class="row">
+            @foreach (var property in Model.Properties)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@property.Name</h5>
+                            <p class="card-text">
+                                <strong>Localização:</strong><br/>
+                                @property.City?.Name, @property.City?.Country?.CountryName
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span
+                                    class="badge bg-success fs-6">@property.PricePerNight.ToString("C", new CultureInfo("en-US"))/noite</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a href="/CityDetails/@property.City?.Name" class="btn btn-outline-primary btn-sm">
+                                    Ver Cidade
+                                </a>
+                                <a href="/EditProperty/@property.Id" class="btn btn-outline-info btn-sm">
+                                    Editar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model.Properties.Any())
+        {
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6 class="card-title">Estatísticas</h6>
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <small class="text-muted">Preço Mínimo</small>
+                                    <div
+                                        class="h5 text-success">@Model.Properties.Min(p => p.PricePerNight).ToString("C", new CultureInfo("en-US"))</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">Preço Máximo</small>
+                                    <div
+                                        class="h5 text-danger">@Model.Properties.Max(p => p.PricePerNight).ToString("C", new CultureInfo("en-US"))</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">Preço Médio</small>
+                                    <div
+                                        class="h5 text-primary">@Model.Properties.Average(p => p.PricePerNight).ToString("C", new CultureInfo("en-US"))</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">Total Encontrado</small>
+                                    <div class="h5 text-info">@Model.Properties.Count</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    <h4>Nenhuma propriedade encontrada</h4>
+                    <p>Tente ajustar os filtros de busca ou <a href="/FilterProperties">remova todos os filtros</a>.</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="/" class="btn btn-secondary">← Voltar para Home</a>
+            <a href="/CreateProperty" class="btn btn-primary ms-2">Nova Propriedade</a>
+        </div>
+    </div>
+</div>
