@@ -1,0 +1,143 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Sistema de Turismo";
+}
+
+<div class="jumbotron bg-dark text-white p-5 rounded mb-4">
+    <h1 class="display-4">Sistema de Gerenciamento da Agência de Turismo</h1>
+    <p class="lead">Gerencie seus destinos e pacotes</p>
+</div>
+
+<div class="row">
+    <div class="col-md-auto">
+        <h3>Funcionalidades Disponíveis</h3>
+        <div class="row mt-3">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-success">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Pacotes de Viagem</h5>
+                        <p class="card-text">Gerencie os pacotes de viagem</p>
+                        <a asp-page="/VacationPackages/Index" class="btn btn-success">Acessar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-info">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Cadastrar Destino</h5>
+                        <p class="card-text">Adicione novos destinos turísticos ao sistema</p>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-page="/CreateDestination" class="btn btn-outline-info">
+                                Novo Destino
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Auth/Login" asp-route-returnUrl="/CreateDestination"
+                               class="btn btn-outline-info">
+                                Login para Criar Destino
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-secondary">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Sistema de Notas</h5>
+                        <p class="card-text">Acesse e gerencie suas notas importantes</p>
+                        <a asp-page="/ViewNotes" class="btn btn-secondary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.UpcomingVacations.Any())
+            {
+                <div class="row mt-3">
+                    <h3>
+                        Próximos os Pacotes
+                    </h3>
+                </div>
+                <div class="row mt-3">
+
+                    @foreach (var package in Model.UpcomingVacations)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>@package.Title</strong><br>
+                                            <small class="text-muted">
+                                                @package.StartDate.ToString("dd/MM/yyyy")
+                                            </small><br>
+                                            <small class="text-success">
+                                                @package.AvailableSpots vagas
+                                                disponíveis
+                                            </small>
+                                        </div>
+                                        <a asp-page="/PackageDetails" asp-route-id="@package.Id"
+                                           class="btn btn-sm btn-outline-success">Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="card-footer text-center">
+                        <small class="text-muted">
+                            Clique em "Ver" para detalhes completos
+                        </small>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5>
+                            Próximos Pacotes
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <p class="text-muted">Nenhum pacote programado</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h5>
+                    Estatísticas
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total de Clientes
+                        <span class="badge bg-primary rounded-pill">@Model.TotalClients</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Pacotes Disponíveis
+                        <span class="badge bg-success rounded-pill">@Model.AvailablePackages</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Reservas Ativas
+                        <span class="badge bg-warning rounded-pill">@Model.ActiveReservations</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Destinos Cadastrados
+                        <span class="badge bg-info rounded-pill">@Model.TotalDestinations</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

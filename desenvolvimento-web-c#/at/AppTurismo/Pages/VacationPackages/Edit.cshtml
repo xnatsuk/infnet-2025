@@ -1,0 +1,107 @@
+@page "/VacationPackages/Edit/{id:int}"
+@model AppTurismo.Pages.VacationPackages.EditModel
+@{
+    ViewData["Title"] = "Editar Pacote Turístico";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Informações do Pacote</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="VacationPackage.Id"/>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="VacationPackage.Title" class="form-label">
+                                Título do Pacote
+                            </label>
+                            <input asp-for="VacationPackage.Title" class="form-control"
+                                   placeholder="Digite o título do pacote"/>
+                            <span asp-validation-for="VacationPackage.Title" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="VacationPackage.StartDate" class="form-label">
+                                Data de Início
+                            </label>
+                            <input asp-for="VacationPackage.StartDate" class="form-control" type="date"/>
+                            <span asp-validation-for="VacationPackage.StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="VacationPackage.Price" class="form-label">
+                                Preço
+                            </label>
+                            <input asp-for="VacationPackage.Price" class="form-control" type="number" step="0.01"
+                                   min="0"/>
+                            <span asp-validation-for="VacationPackage.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="VacationPackage.MaxCapacity" class="form-label">
+                                Capacidade Máxima
+                            </label>
+                            <input asp-for="VacationPackage.MaxCapacity" class="form-control" type="number" min="1"/>
+                            <span asp-validation-for="VacationPackage.MaxCapacity" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Destinos
+                        </label>
+                        <select asp-for="SelectedDestinations" asp-items="@Model.DestinationOptions"
+                                class="form-select" multiple size="6">
+                        </select>
+                        <small class="text-muted">
+                            Use Ctrl para selecionar vários destinos
+                        </small>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-page="./Index" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6>Informações Adicionais</h6>
+            </div>
+            <div class="card-body">
+                @if (Model.VacationPackage != null)
+                {
+                    <p><strong>ID:</strong> @Model.VacationPackage.Id</p>
+                    <p><strong>Reservas Ativas:</strong> @Model.ActiveReservations</p>
+                    <p><strong>Vagas Disponíveis:</strong> @Model.AvailableSpots</p>
+
+                    @if (Model.ActiveReservations > 0)
+                    {
+                        <div class="alert alert-warning">
+                            <small>
+                                Este pacote possui reservas ativas.
+                            </small>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

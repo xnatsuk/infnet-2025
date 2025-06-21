@@ -1,0 +1,81 @@
+@page "/ViewNotes"
+@model AppTurismo.Pages.ViewNotesModel
+
+@{
+    ViewData["Title"] = "Sistema de Notas";
+}
+
+<h2>Sistema de Notas</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Nova Nota</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label asp-for="NoteTitle" class="form-label">Título</label>
+                        <input asp-for="NoteTitle" class="form-control" placeholder="Digite o título da nota"/>
+                        <span asp-validation-for="NoteTitle" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NoteContent" class="form-label">Conteúdo</label>
+                        <textarea asp-for="NoteContent" class="form-control" rows="8"
+                                  placeholder="Digite o conteúdo da nota..."></textarea>
+                        <span asp-validation-for="NoteContent" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Salvar Nota</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Notas Disponíveis (@Model.AvailableNotes.Count)</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.AvailableNotes.Any())
+                {
+                    <div class="list-group">
+                        @foreach (var note in Model.AvailableNotes)
+                        {
+                            <a asp-page="/ViewNotes" asp-route-fileName="@note"
+                               class="list-group-item list-group-item-action @(note == Request.Query["fileName"] ? "active" : "")">
+                                @note
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Nenhuma nota encontrada.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (!string.IsNullOrEmpty(Model.SelectedNoteContent))
+{
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Conteúdo da Nota: @Request.Query["fileName"]</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="bg-light p-3 border rounded">@Model.SelectedNoteContent</pre>
+                    <a asp-page="/ViewNotes" class="btn btn-secondary mt-2">Voltar à Lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

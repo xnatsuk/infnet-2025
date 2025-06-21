@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTurismo", "AppTurismo\AppTurismo.csproj", "{09FF5113-FB81-47B3-98C7-A7F9CC1D4E29}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09FF5113-FB81-47B3-98C7-A7F9CC1D4E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09FF5113-FB81-47B3-98C7-A7F9CC1D4E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09FF5113-FB81-47B3-98C7-A7F9CC1D4E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09FF5113-FB81-47B3-98C7-A7F9CC1D4E29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
