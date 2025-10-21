@@ -1,0 +1,12 @@
+services:
+  openmp:
+    build: .
+    container_name: openmp
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    environment:
+      - OMP_NUM_THREADS=8
+    tty: true
+    stdin_open: true
+    command: /bin/bash
